@@ -1,4 +1,4 @@
-""" Jövedelemszámítás bruttó és kor alapján
+#Jövedelemszámítás bruttó és kor alapján
 print("Jövedelemszámítás\n")
 brutto = int(input("Kérem a bruttó jövedelmét: "))
 kor = int(input("Hány éves vagy: "))
@@ -24,7 +24,6 @@ print("TB:".ljust(25, "_"), str(int(tb)).rjust(25, "_"), " Ft", sep="")
 print("Munkanélküli:".ljust(25, "_"), str(int(munkanelkuli)).rjust(25, "_"), " Ft", sep="")
 print("")
 print("Nettó jövedelem:".ljust(25, "_"), str(int(netto)).rjust(25, "_"), " Ft", sep="")
-"""
 
 # Számológép a négy alapműveletre
 print("Számológép")
