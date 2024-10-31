@@ -106,8 +106,12 @@ class Felhasznalo(Jelszo):
         kapcsolat.commit()
         kapcsolat.close()
 
+    def felhasznalo_ell(self):
+        # vagy egy jelszót ad vissza vagy False
+        pass
+    
 # Főprogram
-dolgozo = Felhasznalo("JELSZÓ123")
+dolgozo = Felhasznalo()
 # dolgozo.jelszo_generalasa()
 # dolgozo.felhasznalonev()
 print(dolgozo.felhasznalo_neve)
