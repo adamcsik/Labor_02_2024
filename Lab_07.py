@@ -1,10 +1,15 @@
+from Lab_05_modul import jelszo_ellenorzese
+from y import rekord
+
+
 class Jelszo:
     felhasznalo_jelszava = "nincs"
 
     def __init__(self, felhasznalo_jelszava = "valamiJelszo123"):
         self.felhasznalo_jelszava = felhasznalo_jelszava
 
-    def jelszo_bekerese(self,hosszusag):
+    def jelszo_bekerese2(self,hosszusag):
+        jelszo_ok = True
         def hossz(_jelszo, min_hossz):
             ok = True
             if len(_jelszo) < min_hossz:
@@ -35,11 +40,47 @@ class Jelszo:
                     break
             return ok
 
-        jelszo = input("Kérem a jelszót: ")
-        while not hossz(jelszo, hosszusag) or not szamjegyek(jelszo) or not kisbetu(jelszo) or not nagybetu(jelszo) or " " in jelszo:
-            print("Nem megfelelő a jelszó!")
-            jelszo = input("Kérem a jelszót: ")
-        self.felhasznalo_jelszava = jelszo
+        #jelszo = input("Kérem a jelszót: ")
+        if not hossz(self.felhasznalo_jelszava, hosszusag) or not szamjegyek(self.felhasznalo_jelszava) or not kisbetu(self.felhasznalo_jelszava) or not nagybetu(self.felhasznalo_jelszava) or " " in self.felhasznalo_jelszava:
+            jelszo_ok = False
+        return jelszo_ok
+
+    def jelszo_vizsgalata(self,hosszusag):
+        jelszo_ok = True
+        def hossz(_jelszo, min_hossz):
+            ok = True
+            if len(_jelszo) < min_hossz:
+                ok = False
+            return ok
+
+        def szamjegyek(_jelszo):
+            ok = False
+            for betu in _jelszo:
+                if betu.isnumeric():
+                    ok = True
+                    break
+            return ok
+
+        def kisbetu(_jelszo):
+            ok = False
+            for betu in _jelszo:
+                if betu.islower():
+                    ok = True
+                    break
+            return ok
+
+        def nagybetu(_jelszo):
+            ok = False
+            for betu in _jelszo:
+                if betu.isupper():
+                    ok = True
+                    break
+            return ok
+
+        jelszo = self.felhasznalo_jelszava
+        if not hossz(jelszo, hosszusag) or not szamjegyek(jelszo) or not kisbetu(jelszo) or not nagybetu(jelszo) or " " in jelszo:
+            jelszo_ok = False
+        return jelszo_ok
 
     def jelszo_generalasa(self, hossz=8, kisbetu=True, nagybetu=True, szam=True):
         import random
@@ -106,14 +147,35 @@ class Felhasznalo(Jelszo):
         kapcsolat.commit()
         kapcsolat.close()
 
-    def felhasznalo_ell(self):
-        # vagy egy jelszót ad vissza vagy False
-        pass
-    
-# Főprogram
-dolgozo = Felhasznalo()
-# dolgozo.jelszo_generalasa()
-# dolgozo.felhasznalonev()
-print(dolgozo.felhasznalo_neve)
-print(dolgozo.felhasznalo_jelszava)
-dolgozo.tarolas()
+    def felh_es_jelszo_ell(self):
+        import sqlite3
+        belepes = False
+        kapcsolat = sqlite3.connect("dolgozok.db")
+        ab = kapcsolat.cursor()
+        nev = self.felhasznalo_neve
+        ab.execute('SELECT * FROM dolgozok WHERE nev= ?', (nev, ))
+        rekord = ab.fetchone()
+        if rekord is None:
+            belepes = False
+        else:
+            jelszo = rekord[1]
+            if jelszo == self.felhasznalo_jelszava:
+                belepes = True
+        kapcsolat.close()
+        return belepes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
